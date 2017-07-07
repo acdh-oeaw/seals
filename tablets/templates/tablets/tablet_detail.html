@@ -1,0 +1,105 @@
+{% extends "webpage/base.html" %}
+{% load staticfiles %}
+{% block scriptHeader %}
+<!--leafletjs -->
+    <link rel="stylesheet" href="{% static 'webpage/libraries/leaflet/leaflet.css' %}" />
+    <script src="{% static 'webpage/libraries/leaflet/leaflet.js' %}"></script>
+        <style>
+            #map { height: 500px; }
+        </style>
+
+{% endblock %}
+{% block content %}
+    <h1>
+        {{ object.cdli_no }} | {{ object.nabucco_no }} | {{ object.museum_no }}
+    </h1>
+
+    <legend>Tablet</legend>
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th class="col-sm-3">Place</th>
+            <td>{{object.place}}</td>
+        </tr>
+        <tr>
+            <th>Archive</th>
+            <td>{{ object.archive }}</td>
+        </tr>
+        <tr>
+            <th>Scribe</th>
+            <td>{{ object.scribe }}</td>
+        </tr>
+        <tr>
+            <th>Text Type</th>
+            <td>{{ object.text_type }}</td>
+        </tr>
+    </table>
+    <legend>Date</legend>
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th>Period</th>
+            <td>{{ object.period }}</td>
+        </tr>
+        <tr>
+            <th>Year</th>
+            <td>{{ object.year }}</td>
+        </tr>
+        <tr>
+            <th>Date not before | after</th>
+            <td>
+                {{ object.date_not_before }} | {{ object.date_not_after }}
+            </td>
+        </tr>
+        <tr>
+            <th>Babyloneian Time</th>
+            <td>
+                {{ object.babyloneian_time }}
+            </td>
+        </tr>
+        <tr>
+            <th>Comment</th>
+            <td>{{ object.date_comment }}</td>
+        </tr>
+    </table>
+
+    <legend>References</legend>
+    <table class="table table-bordered table-hover">
+        {% for x in object.reference.all %}
+            <tr>
+                <th>Comment</th>
+                <td>{{ x.reference }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+    <legend>Location {{ object.place }}</legend>
+        {% if object.place.lat %}
+            <div id="map"></div><br/>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            <a class="btn btn-primary" href="{% url 'tablets:tablet_update' pk=object.pk %}" role="button">edit tablet</a>
+            <a class ="btn btn-danger" href="{% url 'tablets:tablet_delete' pk=object.id %}">delete</a>
+
+        {% endif %}
+{% endblock %}
+{% block scripts2 %}
+    <script type="text/javascript">
+
+        var gps1 = {{ object.place.lat }};
+        var gps2 = {{ object.place.lng }};
+        var map = L.map('map').setView([gps1, gps2], 6);
+
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox.light',
+            accessToken: 'pk.eyJ1Ijoic2VubmllcmVyIiwiYSI6ImNpbHk1YWV0bDAwZnB2dW01d2l1Y3phdmkifQ.OljQLEhqeAygai2y6VoSwQ'
+            }).addTo(map);
+
+        L.marker([gps1 , gps2]).addTo(map)
+        .bindPopup('<a href="#">{{ object.place.name }}</a>')
+        .openPopup();
+
+    </script>
+{% endblock scripts2 %}

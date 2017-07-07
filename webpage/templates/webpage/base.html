@@ -98,6 +98,12 @@
                         </a>
                         {% endif %}
                         <ul class="dropdown-menu procustom-dropdown-menu">
+                            <li>
+                                <a href="{% url 'browsing:browse_tablets' %}">Tablets</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'browsing:browse_seals' %}">Seals</a>
+                            </li>
                             <li><a href="{% url 'places:place_list' %}">Locations</a></li>
                             <li role="separator" class="divider"></li>
                             {% if user.is_authenticated %}

@@ -1,0 +1,39 @@
+{% extends "webpage/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <h1>
+        Seal ID: {{ object.id }}
+    </h1>
+
+    <legend>Seal</legend>
+    <table class="table table-bordered table-hover">
+        <tr>
+            <th class="col-sm-3">Owner</th>
+            <td>{{object.owner}}</td>
+        </tr>
+        <tr>
+            <th>Type</th>
+            <td>{{ object.seal_type }}</td>
+        </tr>
+        <tr>
+            <th>Motive</th>
+            <td>{{ object.seal_motive }}</td>
+        </tr>
+        <tr>
+            <th>Position on Tablet</th>
+            <td>{{ object.seal_position }}</td>
+        </tr>
+    </table>
+
+    <legend>References</legend>
+    <table class="table table-bordered table-hover">
+        {% for x in object.reference.all %}
+            <tr>
+                <th>Comment</th>
+                <td>{{ x.reference }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

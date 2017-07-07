@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 from places.models import Place
 from vocabs.models import SkosConcept
 from bib.models import Book
@@ -17,6 +18,15 @@ class Seal(models.Model):
     seal_position = models.ForeignKey(
         SkosConcept, blank=True, null=True, related_name="tablet_position"
     )
+    reference = models.ManyToManyField(
+        Book, blank=True, related_name="tablet_seal_book"
+    )
+
+    def __str__(self):
+        return "{}".format(self.id)
+
+    def get_absolute_url(self):
+        return reverse('tablets:seal_detail', kwargs={'pk': self.id})
 
 
 class Tablet(models.Model):
@@ -49,3 +59,9 @@ class Tablet(models.Model):
     seal = models.ManyToManyField(
         Seal, blank=True
     )
+
+    def __str__(self):
+        return "{}".format(self.cdli_no)
+
+    def get_absolute_url(self):
+        return reverse('tablets:tablet_detail', kwargs={'pk': self.id})
