@@ -35,5 +35,10 @@
             </tr>
         {% endfor %}
     </table>
+    {% if user.is_authenticated %}
+        <a class="btn btn-primary" href="{% url 'tablets:seal_update' pk=object.pk %}" role="button">edit seal</a>
+        <a class ="btn btn-danger" href="{% url 'tablets:seal_delete' pk=object.id %}">delete</a>
+
+    {% endif %}
 
 {% endblock %}

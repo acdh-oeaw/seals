@@ -18,6 +18,16 @@ class SealForm(forms.ModelForm):
     class Meta:
         model = Seal
         fields = "__all__"
+        widgets = {
+            'owner': autocomplete.ModelSelect2(
+                url='../../../vocabs-ac/skos-constraint-ac/?scheme=owner'),
+            'seal_type': autocomplete.ModelSelect2(
+                url='../../../vocabs-ac/skos-constraint-ac/?scheme=seal_type'),
+            'seal_motive': autocomplete.ModelSelect2(
+                url='../../../vocabs-ac/skos-constraint-ac/?scheme=seal_motive'),
+            'seal_position': autocomplete.ModelSelect2(
+                url='../../../vocabs-ac/skos-constraint-ac/?scheme=seal_position'),
+        }
 
     def __init__(self, *args, **kwargs):
         super(SealForm, self).__init__(*args, **kwargs)
