@@ -26,10 +26,10 @@ django_filters.filters.LOOKUP_TYPES = [
 class TabletListFilter(django_filters.FilterSet):
     class Meta:
         model = Tablet
-        fields = '__all__'
+        exclude = ['custom_md']
 
 
 class SealListFilter(django_filters.FilterSet):
     class Meta:
         model = Seal
-        fields = '__all__'
+        exclude = ['custom_md']
