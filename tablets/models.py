@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.postgres.fields import HStoreField
+from django.contrib.postgres.fields import JSONField
 from django.core.urlresolvers import reverse
 from places.models import Place
 from vocabs.models import SkosConcept
@@ -22,7 +22,7 @@ class Seal(models.Model):
     reference = models.ManyToManyField(
         Book, blank=True, related_name="tablet_seal_book"
     )
-    custom_md = HStoreField(blank=True, null=True)
+    custom_md = JSONField(blank=True, null=True)
 
     def __str__(self):
         return "{}".format(self.id)
@@ -61,7 +61,7 @@ class Tablet(models.Model):
     seal = models.ManyToManyField(
         Seal, blank=True
     )
-    custom_md = HStoreField(blank=True, null=True)
+    custom_md = JSONField(blank=True, null=True)
 
     def __str__(self):
         return "{}".format(self.cdli_no)

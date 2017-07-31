@@ -35,3 +35,4 @@ dev_secret.py
 /docs/_*/*
 /vocabs/data/spreadsheets/cv_burial.xlsx
 /seals/settings/pg_local.py
+/seals/settings/pg.py
